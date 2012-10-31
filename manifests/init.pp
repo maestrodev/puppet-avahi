@@ -1,22 +1,9 @@
 # Start avahi services for mdns
 
 class avahi($firewall=false) {
-  
-  $packages = ['avahi', 'avahi-autoipd', 'avahi-compat-libdns_sd', 'avahi-glib', 'avahi-gobject', 'avahi-tools', 'nss-mdns']
-  
-  package { $packages:
-    ensure => present,
-    before => [Service['messagebus'],Service['avahi-daemon']],
-  }
- 
-  service { 'messagebus':
-    enable => true,
-    ensure => running,
-  } ~>
-  service { 'avahi-daemon':
-    enable => true,
-    ensure => running,
-  }
+
+  class { 'avahi::package': } ~>
+  class { 'avahi::service': }
 
   if $firewall {
 
