@@ -1,9 +1,10 @@
 # Start avahi services for mdns
 
 class avahi($firewall=false) {
+  contain avahi::package
+  contain avahi::service
 
-  class { 'avahi::package': } ~>
-  class { 'avahi::service': }
+  Class['avahi::package'] ~> Class['avahi::service']
 
   if $firewall {
 
